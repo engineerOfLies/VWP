@@ -801,14 +801,6 @@ int UpdateEntityPosition(Entity *self,int bounce)
     ydir = 0;    
   }
   start = SDL_GetTicks();
-  if(clipmask != NULL)if(SDL_MUSTLOCK(clipmask))
-  {
-    if ( SDL_LockSurface(clipmask) < 0 )
-    {
-      fprintf(stderr, "Can't lock screen: %s\n", SDL_GetError());
-      exit(1);
-    }
-  }
 /*  if(xdir)while((getpixel(clipmask, (int)(tsx + vx) ,tsy) != clear)&&(vx * xdir < 0))
   { there be something here
     vx += xdir;
@@ -1118,6 +1110,15 @@ void InitRegionMask(int sizex,int sizey)
     fprintf(stderr,"Attemped to create more map space than we are allotted.\n");
     exit(0);
   }
+  if(clipmask != NULL)if(SDL_MUSTLOCK(clipmask))
+  {
+    if ( SDL_LockSurface(clipmask) < 0 )
+    {
+      fprintf(stderr, "Can't lock screen: %s\n", SDL_GetError());
+      exit(1);
+    }
+  }
+  
   Region_W = sizex;
   Region_H = sizey;
   for(j = 0;j < sizey;j++)
