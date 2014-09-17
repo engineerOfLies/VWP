@@ -1,0 +1,9 @@
+#ifndef __WORDLENT__
+#define __WORDLENT__
+
+void SpawnMechGenerator(Entity *owner,int sx,int sy,int MechIndex,int UType);
+void SpawnExploder(Entity *owner,int sx,int sy,int weapon,int UType);
+
+
+
+#endif

@@ -1,0 +1,13 @@
+# KDevelop Custom Project File List
+audio.c
+audio.h
+bangai.c
+entity.c
+entity.h
+game.c
+graphics.c
+graphics.h
+Makefile
+Makefile.am
+space.c
+space.h

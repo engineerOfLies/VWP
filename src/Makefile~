@@ -1,0 +1,69 @@
+##############################################################################
+#
+# The Linux-GCC Makefile
+#
+##############################################################################
+
+#
+# Object files.
+#
+
+OBJ = game.o graphics.o space.o font.o entity.o audio.o particle.o player.o projectiles.o weapons.o mechs.o worldents.o menu.o spawn.o
+
+#
+# Compiler stuff -- adjust to your system.
+#
+
+# Linux
+
+CC     = gcc
+SDL_CFLAGS = `sdl-config --cflags`
+SDL_LDFLAGS = `sdl-config --libs` -lSDL_image -lSDL_ttf -lSDL_mixer
+LFLAGS = -g -o vwp
+CFLAGS = -g -Wall -pedantic -O3
+
+#
+# Targets.
+#
+
+garden: $(OBJ)
+	gcc $(OBJ) $(LFLAGS) $(SDL_LDFLAGS)
+  
+depend:
+	@-rm makefile.dep
+	@echo Creating dependencies.
+	@for i in *.c; do $(CC) $(INC) -MM $$i;
+	@echo Done.
+
+clean:
+	rm *.o vwp
+
+count:
+	wc *.c *.h makefile
+
+#
+# Dependencies.
+#
+
+spawn.o: spawn.c spawn.h entity.h space.h player.h mechs.h
+menu.o: menu.c menu.h space.h audio.h entity.h spawn.h
+worldents.o: worldents.c worldents.h mechs.h entity.h
+mechs.o: mechs.c mechs.h weapons.h entity.h
+weapons.o: weapons.c weapons.h projectiles.h entity.h
+projectiles.o: projectiles.c projectiles.h entity.h
+player.o: player.c player.h entity.h weapons.h
+particle.o: particle.c particle.h entity.h graphics.h
+audio.o: audio.c audio.h
+entity.o: entity.c entity.h space.h graphics.h audio.h
+font.o: font.c graphics.h
+space.o: space.c space.h graphics.h 
+graphics.o: graphics.c graphics.h
+game.o: game.c graphics.h space.h entity.h particle.h game.h player.h worldents.o
+
+#
+# The default rule.
+#
+
+.c.o:
+	gcc $(CFLAGS) $(SDL_CFLAGS) -c $<
+
