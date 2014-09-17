@@ -818,8 +818,8 @@ int UpdateEntityPosition(Entity *self,int bounce)
   {
     if((TraceHit(tsx , tsy, vx, vy, &hx, &hy,&rxtype,&rytype))&&(updated_s == 0))
     {
-      fprintf(stdout,"hx %f, hy %f\n",hx,hy);
-      fprintf(stdout,"vx %f, vy %f\n",vx,vy);
+/*      fprintf(stdout,"hx %f, hy %f\n",hx,hy);
+      fprintf(stdout,"vx %f, vy %f\n",vx,vy);*/
       self->s.x += hx;
       self->s.y += hy;
       updated_s = 1;
@@ -936,7 +936,8 @@ int UpdateEntityPosition(Entity *self,int bounce)
  
 int TraceHit(float sx, float sy, float vx, float vy, float *fx, float *fy,int *rx,int *ry)
 {
-  Uint32 clear = SDL_MapRGB(background->format,0,0,0);
+  Uint32 clear = SDL_MapRGBA(background->format,0,0,0,0);
+  Uint32 pixelColor;
   int deltax,deltay;
   float x,y;
   int curpixel;
@@ -992,7 +993,9 @@ int TraceHit(float sx, float sy, float vx, float vy, float *fx, float *fy,int *r
   oy = y;
   for (curpixel = 0; curpixel <= numpixels; curpixel++)
   {
-    if(getpixel(clipmask, x ,y) != clear)/*check to see if the pixel is clear or not*/
+    pixelColor = getpixel(clipmask, x ,y);
+    fprintf(stdout,"pixel color: %i, clear color: %i\n",pixelColor,clear);
+    if(pixelColor != clear)/*check to see if the pixel is clear or not*/
     {
       *fx = x - sx;
       *fy = y - sy;
@@ -1024,6 +1027,7 @@ int TraceHit(float sx, float sy, float vx, float vy, float *fx, float *fy,int *r
         }
 
       }
+      fprintf(stdout,"We hit something\n");
       return 1;/*we hit shit*/
     }
     num += numadd;              // Increase the numerator by the top of the fraction

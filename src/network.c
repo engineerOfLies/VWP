@@ -44,7 +44,7 @@ void SetUpNetwork()
 void UpdateNetwork(int host)
 {
 	char string[10];
-	static clientconenct;
+	static clientconnected;
 	if(host == -1)return;		//not set up yet
 	if(host == 0)
 	{
